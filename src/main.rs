@@ -28,7 +28,8 @@ struct GlobalState {
 #[derive(Deserialize)]
 struct AnalyticsRequest {
     property_id: String,
-    report_type: Option<String>, // "overview", "brands", "screens"
+    event_name: Option<String>,
+    dimension: Option<String>,
 }
 
 #[tokio::main]
@@ -101,29 +102,21 @@ async fn get_analytics_data(
         payload.property_id
     );
 
-    let mut dimensions = vec![json!({"name": "eventName"})];
-    let mut dimension_filter = json!(null);
+    let mut dimensions = vec![];
+    if let Some(dim) = payload.dimension {
+        dimensions.push(json!({"name": dim}));
+    } else {
+        dimensions.push(json!({"name": "eventName"}));
+    }
 
-    match payload.report_type.as_deref() {
-        Some("brands") => {
-            dimensions = vec![json!({"name": "customEvent:item_name"})];
-            dimension_filter = json!({
-                "filter": {
-                    "fieldName": "eventName",
-                    "stringFilter": { "value": "brand_click" }
-                }
-            });
-        }
-        Some("screens") => {
-            dimensions = vec![json!({"name": "pageTitle"})];
-            dimension_filter = json!({
-                "filter": {
-                    "fieldName": "eventName",
-                    "stringFilter": { "value": "screen_view" }
-                }
-            });
-        }
-        _ => {}
+    let mut dimension_filter = json!(null);
+    if let Some(evt) = payload.event_name {
+        dimension_filter = json!({
+            "filter": {
+                "fieldName": "eventName",
+                "stringFilter": { "value": evt }
+            }
+        });
     }
 
     let mut request_body = json!({
