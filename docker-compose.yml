@@ -1,0 +1,11 @@
+services:
+  analytics_microservice:
+    container_name: analytics_microservice
+    build: .
+    ports:
+      - "8083:8080"
+    volumes:
+      - ./service-account.json:/app/service-account.json:ro
+    env_file:
+      - .env
+    restart: unless-stopped

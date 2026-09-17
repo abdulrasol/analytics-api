@@ -1,0 +1,21 @@
+# Rust Cargo build artifacts
+/target/
+target/
+**/*.rs.bk
+cargo-timings/
+/taqati_analytics
+*.pdb
+
+# Secrets & Service accounts
+service_account*.json
+.env
+.env.*
+*.env
+
+# Docker & Temporary
+.docker/
+*.dockerfile.tmp
+*.log
+
+# OS junk
+.DS_Store

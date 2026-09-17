@@ -1,0 +1,17 @@
+[package]
+name = "taqati_analytics"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = "0.7.4"
+tokio = { version = "1.35", features = ["full"] }
+reqwest = { version = "0.11", features = ["json"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+yup-oauth2 = "8.3"
+hyper = { version = "0.14", features = ["client", "http1", "tcp"] }
+hyper-rustls = "0.24"
+dotenvy = "0.15"
+tracing = "0.1"
+tracing-subscriber = "0.3"
