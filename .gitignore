@@ -19,3 +19,4 @@ service_account*.json
 
 # OS junk
 .DS_Store
+!.env.example
