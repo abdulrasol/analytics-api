@@ -5,7 +5,7 @@ A lightweight, blazing-fast, and secure microservice written in **Rust** to pull
 ## 🌟 Why this microservice?
 Querying GA4 Data APIs from mobile or web clients directly requires exposing your Google Cloud Service Account, which is a massive security risk. 
 This microservice acts as a highly optimized, ultra-lightweight proxy:
-- Your app sends a request containing the `property_id` and the `report_type` along with a static `API_KEY`.
+- Your app sends a request containing the `property_id`, `event_name`, and `dimension` along with a static `API_KEY`.
 - This service handles Google OAuth2 authentication securely, caches the Bearer token, fetches the requested GA4 data, and returns the pure JSON response.
 
 ## 🚀 Features
@@ -13,6 +13,7 @@ This microservice acts as a highly optimized, ultra-lightweight proxy:
 - **Secure:** Endpoint is protected by an `Authorization: Bearer <API_KEY>`.
 - **Automatic Token Management:** Automatically generates and caches the OAuth2 token for Google APIs.
 - **Dynamic Projects:** Accepts `property_id` dynamically inside the request payload, making it generic for multiple apps/websites.
+- **Dynamic Events & Dimensions:** Since this is a generic open-source package, it does not hardcode any specific topics or app domains. You can query any custom event you have set up in GA4.
 
 ---
 
@@ -60,15 +61,18 @@ Authorization: Bearer my_super_secret_api_key_123
 **Body (JSON):**
 ```json
 {
-  "property_id": "553872953",
-  "report_type": "overview"
+  "property_id": "123456789",
+  "event_name": "notification_opened",
+  "dimension": "eventName"
 }
 ```
 
-#### Supported `report_type`:
-- `"overview"`: General daily active users and events count.
-- `"brands"`: Clicks and events related to brands.
-- `"screens"`: Screen views.
+### Dynamic Parameters:
+- `property_id`: **(Required)** Your GA4 Property ID.
+- `event_name`: *(Optional)* The name of the event to filter by (e.g., `notification_opened`, `screen_view`, `brand_click`). If left empty, it fetches general data.
+- `dimension`: *(Optional)* The dimension you want to group the data by. 
+   - Standard dimensions: `eventName`, `pageTitle`, etc.
+   - Custom dimensions (event parameters): Must be prefixed with `customEvent:`, for example `customEvent:item_name` or `customEvent:item_category`. (Note: Ensure you have registered these custom dimensions in your GA4 Dashboard under **Admin > Custom Definitions**).
 
 #### Example using `cURL`:
 ```bash
@@ -77,6 +81,7 @@ curl -X POST http://localhost:8083/api/v1/analytics/report \
   -H "Authorization: Bearer my_super_secret_api_key_123" \
   -d '{
     "property_id": "123456789",
-    "report_type": "overview"
+    "event_name": "brand_click",
+    "dimension": "customEvent:item_name"
   }'
 ```
