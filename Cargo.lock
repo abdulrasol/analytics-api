@@ -3,6 +3,23 @@
 version = 4
 
 [[package]]
+name = "analytics-api"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "dotenvy",
+ "hyper 0.14.32",
+ "hyper-rustls",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+ "yup-oauth2",
+]
+
+[[package]]
 name = "anyhow"
 version = "1.0.104"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1407,23 +1424,6 @@ checksum = "a75fb188eb626b924683e3b95e3a48e63551fcfb51949de2f06a9d91dbee93c9"
 dependencies = [
  "core-foundation-sys",
  "libc",
-]
-
-[[package]]
-name = "taqati_analytics"
-version = "0.1.0"
-dependencies = [
- "axum",
- "dotenvy",
- "hyper 0.14.32",
- "hyper-rustls",
- "reqwest",
- "serde",
- "serde_json",
- "tokio",
- "tracing",
- "tracing-subscriber",
- "yup-oauth2",
 ]
 
 [[package]]

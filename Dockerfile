@@ -23,9 +23,9 @@ WORKDIR /app
 # Install ca-certificates for HTTPS
 RUN apt-get update && apt-get install -y ca-certificates libssl3 && rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /app/target/release/taqati_analytics /usr/local/bin/taqati_analytics
+COPY --from=builder /app/target/release/analytics-api /usr/local/bin/analytics-api
 
 ENV PORT=8080
 EXPOSE 8080
 
-CMD ["taqati_analytics"]
+CMD ["analytics-api"]

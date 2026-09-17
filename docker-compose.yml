@@ -1,6 +1,6 @@
 services:
-  analytics_microservice:
-    container_name: analytics_microservice
+  analytics-api:
+    container_name: analytics-api
     build: .
     ports:
       - "8083:8080"
