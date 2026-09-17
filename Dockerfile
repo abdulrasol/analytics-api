@@ -5,7 +5,7 @@ WORKDIR /app
 # Install OpenSSL and pkg-config
 RUN apt-get update && apt-get install -y pkg-config libssl-dev && rm -rf /var/lib/apt/lists/*
 
-COPY Cargo.toml Cargo.lock ./
+COPY Cargo.toml Cargo.lock* ./
 RUN mkdir src && echo "fn main() {}" > src/main.rs
 
 ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
