@@ -1,4 +1,5 @@
-# Google Analytics 4 (GA4) Data API Microservice 🦀
+with open('/Users/rasol/DevsTools/codes/rust/analytics-api/README.md', 'w') as f:
+    f.write("""# Google Analytics 4 (GA4) Data API Microservice 🦀
 
 A lightweight, blazing-fast, and secure microservice written in **Rust** to pull reporting data dynamically from the **Google Analytics Data API (GA4)**. 
 
@@ -119,3 +120,6 @@ Authorization: Bearer my_super_secret_api_key_123
 ---
 ## 💖 Contributing
 Feel free to open issues and pull requests to improve this microservice.
+""")
+
+print("README updated")
