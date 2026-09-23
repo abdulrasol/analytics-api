@@ -13,6 +13,8 @@ use tokio::net::TcpListener;
 use yup_oauth2::{read_service_account_key, ServiceAccountAuthenticator, authenticator::Authenticator};
 use hyper::client::HttpConnector;
 use hyper_rustls::HttpsConnector;
+use tower_http::cors::{Any, CorsLayer};
+use axum::http::Method;
 
 #[derive(Clone)]
 
@@ -57,9 +59,15 @@ async fn main() {
         client: Client::new(),
     });
 
+    let cors = CorsLayer::new()
+        .allow_origin(Any)
+        .allow_methods([Method::GET, Method::POST, Method::OPTIONS])
+        .allow_headers(Any);
+
     let app = Router::new()
         .route("/api/v1/analytics/report", post(get_analytics_data))
         .route("/api/report", post(get_analytics_data)) // Backward compatibility
+        .layer(cors)
         .with_state(state);
 
     let addr = format!("0.0.0.0:{}", port);

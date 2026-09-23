@@ -15,8 +15,10 @@ This microservice acts as a highly optimized, ultra-lightweight proxy:
 ## 🚀 Features
 - **Ultra-lightweight:** Minimal Docker image size and RAM usage.
 - **Secure:** Endpoint is protected by an `Authorization: Bearer <API_KEY>`.
+- **CORS Enabled:** Fully supports Cross-Origin Resource Sharing (CORS) out of the box, allowing seamless integration with web browsers (e.g. Flutter Web, React).
 - **Automatic Token Management:** Automatically generates and caches the OAuth2 token.
 - **100% Dynamic & Generic:** It does not hardcode any app domains or events. You can query **any** built-in or custom event you have set up in GA4.
+
 
 ---
 
