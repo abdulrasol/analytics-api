@@ -93,20 +93,25 @@ Authorization: Bearer my_super_secret_api_key_123
 - `property_id`: **(Required)** Your GA4 Property ID (found in GA4 Property Settings).
 - `event_name`: *(Optional)* The exact name of the event to filter by.
 - `dimension`: *(Optional)* The dimension to group your data by.
-   - **Built-in dimensions:** `eventName`, `pageTitle` (for screens), `country`, etc.
+   - **Built-in dimensions:** `eventName`, `unifiedScreenName` (recommended for screens — see note below), `country`, etc.
+
+> ⚠️ **Important note about screen/page names (`pageTitle` vs `unifiedScreenName` vs `screenClass`):**
+> - `pageTitle` is a **web-only** dimension (HTML `<title>`). It does not apply to mobile app screens and should not be used for app analytics.
+> - `unifiedScreenName` is the **correct, recommended dimension for both web pages and app screens** — use it instead of `pageTitle` when building a "most visited pages/screens" report for any client (web or app).
+> - `unifiedScreenName` only shows a meaningful value when the client app **explicitly logs a `screen_view` event with a custom `screen_name`** (e.g. Firebase Analytics' `logScreenView(screenName: ...)`, or GA4's `gtag('event', 'screen_view', {screen_name: ...})` on web). If the app relies only on automatic/default screen tracking, GA4 falls back to the **`screenClass`** dimension instead — the raw native view-controller/activity class name (e.g. `MainActivity`, `FlutterViewController`, `SFAuthenticationViewController` on iOS, or a generic `Fragment`/`Activity` name on Android). This is a client-app instrumentation issue, not something this proxy can fix — if your "most visited screens" report shows native class names instead of readable page names, make sure your client app sends an explicit `screen_view`/`logScreenView` call (with a real screen name) on every navigation, rather than relying on automatic tracking.
    - **Custom dimensions:** If you registered a custom parameter (like `item_name`), you **must prefix it** with `customEvent:`, like this: `customEvent:item_name`.
 
 #### 💡 Examples:
 
-**1. Get Top Visited Screens:**
+**1. Get Top Visited Screens/Pages (web + app):**
 ```json
 {
   "property_id": "123456789",
   "event_name": "screen_view",
-  "dimension": "pageTitle"
+  "dimension": "unifiedScreenName"
 }
 ```
-*(No custom dimension setup required in GA4)*
+*(No custom dimension setup required in GA4. Requires the client app/site to send an explicit screen/page name with each `screen_view` event — see the note above, otherwise you'll get native class names like `MainActivity`/`FlutterViewController` instead of real page names.)*
 
 **2. Get Clicks per Brand (Custom Event):**
 ```json
